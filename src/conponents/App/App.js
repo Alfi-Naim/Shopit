@@ -16,18 +16,24 @@ import Lists from '../Lists/Lists';
 
 import menu from '../../images/menu.svg'
 import UserProfile from '../UserProfile/UserProfile';
+import AddListPopup from '../AddListPopup/AddListPopup';
+import AddItemForm from '../AddItemForm/AddItemForm';
+import ItemList from '../ItemList/ItemList';
 
 function App() {
 
   const navigate = useNavigate();
 
+  const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [token, setToken] = useState(localStorage.getItem('jwt'));
+  const [loading, setLoading] = useState(true);
 
   const [lists, setLists] = useState([]);
   const [currentList, setCurrentList] = useState({ _id: '' });
 
   const [menuPopupOpen, setMenuPopupOpen] = useState(false);
+  const [addListPopupOpen, setAddListPopupOpen] = useState(false);
 
   function handleSignup(email, password, name) {
     toast.promise(
@@ -76,11 +82,15 @@ function App() {
       )
         .then((res) => {
           if (res) {
+            setLoggedIn(true);
             setCurrentUser(res);
             navigate('/');
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => {
+          setLoading(false);
+        });
     }
   }, [token]);
 
@@ -111,29 +121,30 @@ function App() {
       })
   }
 
-    //close popups
-    useEffect(() => {
-      const closePopupByEscape = (evt) => {
-        if (evt.key === "Escape") {
-          closeAllPopups();
-        }
-      };
-      document.addEventListener("keydown", closePopupByEscape);
-      return () => document.removeEventListener("keydown", closePopupByEscape);
-    }, []);
-  
-    useEffect(() => {
-      const closePopupByOutsideClick = (evt) => {
-        if (evt.target.classList.contains("popup") || evt.target.classList.contains("main")) {
-          closeAllPopups();
-        }
-      };
-      document.addEventListener("click", closePopupByOutsideClick);
-      return () => document.removeEventListener("keydown", closePopupByOutsideClick);
-    }, []);
+  //close popups
+  useEffect(() => {
+    const closePopupByEscape = (evt) => {
+      if (evt.key === "Escape") {
+        closeAllPopups();
+      }
+    };
+    document.addEventListener("keydown", closePopupByEscape);
+    return () => document.removeEventListener("keydown", closePopupByEscape);
+  }, []);
+
+  useEffect(() => {
+    const closePopupByOutsideClick = (evt) => {
+      if (evt.target.classList.contains("popup") || evt.target.classList.contains("main")) {
+        closeAllPopups();
+      }
+    };
+    document.addEventListener("click", closePopupByOutsideClick);
+    return () => document.removeEventListener("keydown", closePopupByOutsideClick);
+  }, []);
 
   const closeAllPopups = () => {
     setMenuPopupOpen(false);
+    setAddListPopupOpen(false);
   }
 
   const handleMenuButtonClick = () => {
@@ -141,7 +152,7 @@ function App() {
   }
 
   const handleCreateListClick = () => {
-
+    setAddListPopupOpen(true);
   }
 
   const handleEditProfileImageClick = () => {
@@ -150,6 +161,10 @@ function App() {
 
   const handleEditProfileNameClick = () => {
 
+  }
+
+  const handleCreateListSubmit = (listName) => {
+    toast(listName);
   }
 
   return (
@@ -168,7 +183,7 @@ function App() {
           <Route
             path='/'
             element={
-              <ProtectedRoute token={token}>
+              <ProtectedRoute loggedIn={loggedIn} loading={loading}>
                 <aside className={`aside ${menuPopupOpen && "aside_visible"}`}>
                   <h1 className='logo'>.Shopit</h1>
                   <Lists
@@ -180,13 +195,18 @@ function App() {
                 <main className='main'>
                   <header className='header'>
                     <img className='header__menu-button' src={menu} onClick={handleMenuButtonClick} />
-                    <UserProfile 
+                    <UserProfile
                       currentUser={currentUser}
                       onImageClick={handleEditProfileImageClick}
-                      onArrowClick={handleEditProfileNameClick}
-                    />
+                      onArrowClick={handleEditProfileNameClick} />
+                    <AddItemForm />
+                    <ItemList />
                   </header>
+                  
                 </main>
+                <AddListPopup
+                  isOpen={addListPopupOpen}
+                  onSubmit={handleCreateListSubmit} />
               </ProtectedRoute>
             } />
         </Routes>

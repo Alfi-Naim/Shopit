@@ -1,0 +1,114 @@
+.popup {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    visibility: hidden;
+    transition: visibility 0.3s, opacity 0.3s linear;
+    pointer-events: none;
+    border-radius: 24px;
+    z-index: 7;
+}
+
+.popup_opened {
+    visibility: visible;
+    transition: visibility 0.3s, opacity 0.3s linear;
+    opacity: 1;
+    pointer-events: all;
+}
+
+.popup__submit-button {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    border: none;
+    font-family: 'Kantumruy Pro';
+    background-color: #a4a4ff;
+    border-radius: 0 0 24px 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.popup__form-container {
+    width: 330px;
+    border-radius: 24px;
+    position: relative;
+    margin: auto;
+}
+
+.popup__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.popup__form-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.popup__input {
+    padding-top: 30px;
+    padding-bottom: 20px;
+    text-align: center;
+    border: none;
+    font-weight: bold;
+    outline: none;
+    font-family: 'Kantumruy Pro';
+    margin-top: 3px;
+}
+
+.popup__input-container {
+    text-align: center;
+    border: none;
+    outline: none;
+    font-family: 'Kantumruy Pro';
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: #fff;
+}
+
+.popup__label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 40px;
+    color: #9e9e9e;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transform: translateY(16px) scale(1);
+    transition: all .1s ease-in-out;
+    pointer-events: none;
+}
+
+.popup__input-container:focus-within .popup__label {
+    transform: translateY(-8px) scale(0.8);
+    color: #0a53e4;
+}
+
+.popup__label_active {
+    transform: translateY(-8px) scale(0.8);
+}
+
+.popup__input-container:first-of-type .popup__input:first-of-type, .popup__input-container:first-of-type{
+    border-radius: 24px 24px 0 0;
+}
+
+.popup__bottom-button {
+    margin-top: 32px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+    border: none;
+    border-radius: 24px;
+    font-weight: bold;
+    font-family: 'Kantumruy Pro';
+    background-color: #FF6347;
+    cursor: pointer;
+}

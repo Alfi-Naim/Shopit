@@ -1,0 +1,31 @@
+.loading {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    width: 176px;
+    height: 176px;
+    border-radius: 50%;
+    border-right: 18px solid transparent;
+    border-top: 18px solid #6a74ec;
+    animation: loading 0.8s linear infinite;
+}
+
+.spinner-head {
+    width: 18px;
+    height: 18px;
+    background-color: #6a74ec;
+    border-radius: 50%;
+    margin-left: 150px;
+    margin-top: 7px;
+}
+
+@keyframes loading {
+    100% {
+        transform: rotate(360deg);
+    }
+}
