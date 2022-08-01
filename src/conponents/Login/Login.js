@@ -10,20 +10,20 @@ function Login({ onFormSubmit }) {
   const [password, setPassword] = useState("1234");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
 
-  function onSubmitClick(event) {
+  const onSubmitClick = (event) => {
     event.preventDefault();
     onFormSubmit(email, password);
   }
 
-  function handleEmailChange(event) {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
   }
 
-  function handlePasswordChange(event) {
+  const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   }
 
-  function togglePasswordVisibility() {
+  const togglePasswordVisibility = () => {
     setPasswordVisibility(!passwordVisibility);
   }
 

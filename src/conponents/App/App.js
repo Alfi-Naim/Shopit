@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Profiler } from 'react';
 import { useNavigate } from 'react-router';
 import { Routes, Route } from 'react-router-dom';
 
@@ -12,12 +12,22 @@ import mainApi from '../../utils/MainApi';
 import * as auth from "../../utils/Auth";
 
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
+import Lists from '../Lists/Lists';
+
+import menu from '../../images/menu.svg'
+import UserProfile from '../UserProfile/UserProfile';
 
 function App() {
 
+  const navigate = useNavigate();
+
   const [currentUser, setCurrentUser] = useState({});
   const [token, setToken] = useState(localStorage.getItem('jwt'));
-  const navigate = useNavigate();
+
+  const [lists, setLists] = useState([]);
+  const [currentList, setCurrentList] = useState({ _id: '' });
+
+  const [menuPopupOpen, setMenuPopupOpen] = useState(false);
 
   function handleSignup(email, password, name) {
     toast.promise(
@@ -74,6 +84,74 @@ function App() {
     }
   }, [token]);
 
+  useEffect(() => {
+    if (token) {
+      mainApi.loadUserLists()
+        .then((lists) => {
+          setLists(lists);
+          if (lists.length > 0) {
+            loadList(lists[0]._id)
+          }
+        })
+        .catch((err) => {
+          toast.error("Error loading lists")
+          console.log(err)
+        })
+    }
+  }, [token]);
+
+  const loadList = (listId) => {
+    mainApi.loadList(listId)
+      .then((list) => {
+        if (list) setCurrentList(list);
+      })
+      .catch((err) => {
+        toast.error("Error loading list")
+        console.log(err)
+      })
+  }
+
+    //close popups
+    useEffect(() => {
+      const closePopupByEscape = (evt) => {
+        if (evt.key === "Escape") {
+          closeAllPopups();
+        }
+      };
+      document.addEventListener("keydown", closePopupByEscape);
+      return () => document.removeEventListener("keydown", closePopupByEscape);
+    }, []);
+  
+    useEffect(() => {
+      const closePopupByOutsideClick = (evt) => {
+        if (evt.target.classList.contains("popup") || evt.target.classList.contains("main")) {
+          closeAllPopups();
+        }
+      };
+      document.addEventListener("click", closePopupByOutsideClick);
+      return () => document.removeEventListener("keydown", closePopupByOutsideClick);
+    }, []);
+
+  const closeAllPopups = () => {
+    setMenuPopupOpen(false);
+  }
+
+  const handleMenuButtonClick = () => {
+    setMenuPopupOpen(!menuPopupOpen);
+  }
+
+  const handleCreateListClick = () => {
+
+  }
+
+  const handleEditProfileImageClick = () => {
+
+  }
+
+  const handleEditProfileNameClick = () => {
+
+  }
+
   return (
     <div className='page'>
       <div className='page-content'>
@@ -91,6 +169,24 @@ function App() {
             path='/'
             element={
               <ProtectedRoute token={token}>
+                <aside className={`aside ${menuPopupOpen && "aside_visible"}`}>
+                  <h1 className='logo'>.Shopit</h1>
+                  <Lists
+                    lists={lists}
+                    currentList={currentList}
+                    setCurrentList={loadList}
+                    onCreateListClick={handleCreateListClick} />
+                </aside>
+                <main className='main'>
+                  <header className='header'>
+                    <img className='header__menu-button' src={menu} onClick={handleMenuButtonClick} />
+                    <UserProfile 
+                      currentUser={currentUser}
+                      onImageClick={handleEditProfileImageClick}
+                      onArrowClick={handleEditProfileNameClick}
+                    />
+                  </header>
+                </main>
               </ProtectedRoute>
             } />
         </Routes>

@@ -12,24 +12,24 @@ function Register({ onFormSubmit }) {
   const [name, setName] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
 
-  function onSubmitClick(event) {
+  const onSubmitClick = (event) => {
     event.preventDefault();
     onFormSubmit(email, password, name);
   }
 
-  function handleEmailChange(event) {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
   }
 
-  function handlePasswordChange(event) {
+  const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   }
 
-  function handleNameChange(event) {
+  const handleNameChange = (event) => {
     setName(event.target.value);
   }
 
-  function togglePasswordVisibility() {
+  const togglePasswordVisibility = () => {
     setPasswordVisibility(!passwordVisibility);
   }
 

@@ -1,0 +1,31 @@
+.profile {
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 18px;
+}
+
+.profile__image-container {
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile__image {
+    height: 48px;
+    width: 48px;
+    cursor: pointer;    
+}
+
+.profile__name {
+    font-weight: bold;
+}
+
+.profile__arrow {
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
