@@ -8,24 +8,49 @@
 }
 
 .profile__image-container {
-    height: 48px;
     width: 48px;
+    height: 48px;
     border-radius: 50%;
     overflow: hidden;
 }
 
 .profile__image {
-    height: 48px;
     width: 48px;
-    cursor: pointer;    
+    height: 48px;
+    cursor: pointer;
+    background-color: black;
 }
 
 .profile__name {
     font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .profile__arrow {
     height: 16px;
     width: 16px;
     cursor: pointer;
+}
+
+.profile__arrow_color_black {
+    display: none;
+}    
+
+.profile__arrow_color_white {
+    display: block;
+}
+
+@media screen and (max-width: 950px) {
+
+    .profile__arrow_color_black {
+        display: block;
+    }    
+    
+    .profile__arrow_color_white {
+        display: none;
+    }
+
+    .profile__name {
+        color: #fff;
+    }
 }

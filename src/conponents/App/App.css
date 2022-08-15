@@ -54,6 +54,25 @@
   visibility: hidden;
 }
 
+.main__info-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 60px;
+}
+
+.main__button {
+  border: none;
+  font-size: 18px;
+  border-radius: 16px;
+  padding: 16px 84px;
+  color: #fff;
+  background-color: #3b4897;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 1200px) {
 
   .aside {
@@ -73,12 +92,14 @@
   }
 
   .aside {
+    width: 240px;
     position: absolute;
     top: 0;
     bottom: 0;
     left: -350px;
     border-radius: 0;
     transition: all .3s ease;
+    z-index: 8;
   }
 
   .aside_visible {
@@ -92,7 +113,7 @@
   }
 
   .header {
-    background-color: #f7f6f5;
+    background-color: #16224c;
     padding: 16px 28px;
   }
 

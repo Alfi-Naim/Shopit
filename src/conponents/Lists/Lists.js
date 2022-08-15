@@ -3,7 +3,7 @@ import './Lists.css';
 function Lists({
     lists,
     currentList,
-    loadList,
+    setCurrentList,
     onCreateListClick
 }) {
  
@@ -12,7 +12,7 @@ function Lists({
         <ul className='lists'>
             {
                 lists.map((list, index) => (
-                    <li className={`lists__item ${list._id === currentList._id && "lists__item_selected"}`} key={index} onClick={() => loadList(list._id)}>
+                    <li className={`lists__item ${list._id === currentList._id && "lists__item_selected"}`} key={index} onClick={() => setCurrentList(list._id)}>
                         <p className='lists__item-title'>{list.name}</p>
                     </li>
                 ))

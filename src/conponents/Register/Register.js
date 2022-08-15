@@ -39,10 +39,10 @@ function Register({ onFormSubmit }) {
         <h1 className="auth__title">Register</h1>
         <input className="auth__input" value={email} type='email' onChange={handleEmailChange} placeholder="Email" required />
         <div className="auth__password-wrapper">
-          <input className="auth__input  auth__input_type_password" value={password} type={passwordVisibility ? 'text' : 'password'} onChange={handlePasswordChange} placeholder="Password" required />
+          <input className="auth__input  auth__input_type_password" value={password} type={passwordVisibility ? 'text' : 'password'} maxLength='30' onChange={handlePasswordChange} placeholder="Password" required />
           <img className="auth__input-helper" src={passwordVisibility ? eyeOpen : eyeClose} onClick={togglePasswordVisibility} />
         </div>
-        <input className="auth__input" value={name} type='text' onChange={handleNameChange} placeholder="Name" required />
+        <input className="auth__input" value={name} type='text' onChange={handleNameChange} placeholder="Name" maxLength='30' required />
         <button className="auth__submit">Register</button>
       </form>
       <div className="auth__bottom-wrapper">

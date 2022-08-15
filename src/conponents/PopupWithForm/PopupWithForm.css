@@ -13,7 +13,7 @@
     transition: visibility 0.3s, opacity 0.3s linear;
     pointer-events: none;
     border-radius: 24px;
-    z-index: 7;
+    z-index: 12;
 }
 
 .popup_opened {
@@ -60,6 +60,8 @@
     outline: none;
     font-family: 'Kantumruy Pro';
     margin-top: 3px;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 
 .popup__input-container {
@@ -111,4 +113,11 @@
     font-family: 'Kantumruy Pro';
     background-color: #FF6347;
     cursor: pointer;
+}
+
+.popup__image {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    margin: 16px;
 }

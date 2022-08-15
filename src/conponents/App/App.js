@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useState, useEffect, Profiler } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Routes, Route } from 'react-router-dom';
 
@@ -18,7 +18,11 @@ import menu from '../../images/menu.svg'
 import UserProfile from '../UserProfile/UserProfile';
 import AddListPopup from '../AddListPopup/AddListPopup';
 import AddItemForm from '../AddItemForm/AddItemForm';
-import ItemList from '../ItemList/ItemList';
+import Items from '../Items/Items';
+import EditAvatarPopup from '../EditAvatarPopup/EditAvatarPopup';
+import EditUserNamePopup from '../EditUserNamePopup/EditUserNamePopup';
+import EditListPopup from '../EditListPopup/EditListPopup';
+import EditItemPopup from '../EditItemPopup/EditItemPopup';
 
 function App() {
 
@@ -30,12 +34,17 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const [lists, setLists] = useState([]);
-  const [currentList, setCurrentList] = useState({ _id: '' });
+  const [currentList, setCurrentList] = useState({ _id: '', items: [] });
+  const [currentItem, setCurrentItem] = useState({});
 
   const [menuPopupOpen, setMenuPopupOpen] = useState(false);
+  const [editUserNamePopupOpen, setEditUserNamePopupOpen] = useState(false);
+  const [editAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [addListPopupOpen, setAddListPopupOpen] = useState(false);
+  const [editListPopupOpen, setEditListPopupOpen] = useState(false);
+  const [editItemPopupOpen, setEditItemPopupOpen] = useState(false);
 
-  function handleSignup(email, password, name) {
+  const handleSignup = (email, password, name) => {
     toast.promise(
       auth.signup(email, password, name),
       {
@@ -52,7 +61,7 @@ function App() {
       });
   }
 
-  function handleSignin(email, password) {
+  const handleSignin = (email, password) => {
     toast.promise(
       auth.signin(email, password),
       {
@@ -91,7 +100,7 @@ function App() {
         .finally(() => {
           setLoading(false);
         });
-    }
+    } else setLoading(false);
   }, [token]);
 
   useEffect(() => {
@@ -99,9 +108,8 @@ function App() {
       mainApi.loadUserLists()
         .then((lists) => {
           setLists(lists);
-          if (lists.length > 0) {
-            loadList(lists[0]._id)
-          }
+          if (lists.length > 0) loadList(lists[0]._id)
+          else setCurrentList({ _id: '', items: [] });
         })
         .catch((err) => {
           toast.error("Error loading lists")
@@ -121,7 +129,6 @@ function App() {
       })
   }
 
-  //close popups
   useEffect(() => {
     const closePopupByEscape = (evt) => {
       if (evt.key === "Escape") {
@@ -134,7 +141,7 @@ function App() {
 
   useEffect(() => {
     const closePopupByOutsideClick = (evt) => {
-      if (evt.target.classList.contains("popup") || evt.target.classList.contains("main")) {
+      if (evt.target.classList.contains("popup")) {
         closeAllPopups();
       }
     };
@@ -145,6 +152,10 @@ function App() {
   const closeAllPopups = () => {
     setMenuPopupOpen(false);
     setAddListPopupOpen(false);
+    setEditAvatarPopupOpen(false);
+    setEditUserNamePopupOpen(false);
+    setEditListPopupOpen(false);
+    setEditItemPopupOpen(false);
   }
 
   const handleMenuButtonClick = () => {
@@ -155,16 +166,168 @@ function App() {
     setAddListPopupOpen(true);
   }
 
-  const handleEditProfileImageClick = () => {
+  const handleListClick = (listId) => {
+    closeAllPopups();
+    loadList(listId)
+  }
 
+  const handleCategoryClick = () => {
+
+  }
+
+  const handleEditItemClick = (item) => {
+    setCurrentItem(item);
+    setEditItemPopupOpen(true);
+  }
+
+  const handleEditListClick = () => {
+    setEditListPopupOpen(true);
+  }
+
+  const handleEditProfileImageClick = () => {
+    setEditAvatarPopupOpen(true);
   }
 
   const handleEditProfileNameClick = () => {
+    setEditUserNamePopupOpen(true);
+  }
 
+  const handleSignoutSubmit = () => {
+    localStorage.removeItem("jwt");
+    setLoggedIn(false);
+    setCurrentUser({});
+    setToken("");
+    closeAllPopups();
+  }
+
+  const handleItemClick = (item) => {
+    item.checked = !item.checked;
+    mainApi.updateItem(currentList._id, item)
+      .then((res) => {
+        setCurrentList(res);
+        toast.success(`${item.name} ${item.checked ? 'Checked' : 'Unchecked'}`);
+      })
+      .catch((err) => {
+        console.log(err)
+        toast.error(`Error checking ${item.name}`);
+      });
+  }
+
+  const handleDeleteItemSubmit = (item) => {
+    closeAllPopups();
+    mainApi.deleteItem(currentList._id, item._id)
+      .then((res) => {
+        setCurrentList(res);
+        toast.success(`${item.name} deleted`);
+      })
+      .catch((err) => {
+        console.log(err)
+        toast.error(`Error deleting ${item.name}`);
+      });
+  }
+
+  const handleEditItemSubmit = (item) => {
+    closeAllPopups();
+    mainApi.updateItem(currentList._id, item)
+      .then((res) => {
+        setCurrentList(res);
+        toast.success(`Item updated`);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.errorCode === 409 ? "This item name already exists" : "An unexpected error occurred");
+      });
   }
 
   const handleCreateListSubmit = (listName) => {
-    toast(listName);
+    closeAllPopups();
+    mainApi.createList(listName)
+      .then((list) => {
+        const updatedLists = [...lists, list]
+        setLists(updatedLists);
+        toast.success(`List created`);
+        if (updatedLists.length === 1) loadList(list._id);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`Error creating list`);
+      });
+  }
+
+  const handleAddItemSubmit = (itemName) => {
+    mainApi.createItem(currentList._id, itemName)
+      .then((res) => {
+        setCurrentList(res);
+        toast.success(`Item created`);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.errorCode === 409 ? "This item name already exists" : "An unexpected error occurred");
+      });
+  }
+
+  const handleEditAvatarSubmit = (avatar) => {
+    closeAllPopups();
+    mainApi.updateUserAvatar(avatar)
+      .then((res) => {
+        setCurrentUser(res);
+        toast.success(`User avatar updated`);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error updating user avatar");
+      });
+  }
+
+  const handleEditUserNameSubmit = (name) => {
+    closeAllPopups();
+    mainApi.updateUserName(name)
+      .then((res) => {
+        setCurrentUser(res);
+        toast.success(`User name updated`);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error updating user name");
+      });
+  }
+
+  const handleEditListSubmit = (listName) => {
+    closeAllPopups();
+    mainApi.updateList(currentList._id, listName)
+      .then((res) => {
+        setCurrentList(res);
+        const updatedLists = [...lists];
+        updatedLists.forEach((list) => {
+          if (list._id === currentList._id) {
+            list.name = listName;
+          }
+        })
+        setLists(updatedLists);
+        toast.success(`List updated`);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`Error updating list`);
+      });
+
+  }
+  const handleDeleteListSubmit = () => {
+    closeAllPopups();
+    mainApi.deleteList(currentList._id)
+      .then(() => {
+        const updatedLists = lists.filter((list) => list._id !== currentList._id);
+        setLists(updatedLists);
+        toast.success(`List deleted`);
+        if (updatedLists.length > 0) loadList(updatedLists[0]._id);
+        else setCurrentList({ _id: '', items: [] });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`Error deleting list`);
+      });
+
   }
 
   return (
@@ -189,7 +352,7 @@ function App() {
                   <Lists
                     lists={lists}
                     currentList={currentList}
-                    setCurrentList={loadList}
+                    setCurrentList={handleListClick}
                     onCreateListClick={handleCreateListClick} />
                 </aside>
                 <main className='main'>
@@ -199,14 +362,40 @@ function App() {
                       currentUser={currentUser}
                       onImageClick={handleEditProfileImageClick}
                       onArrowClick={handleEditProfileNameClick} />
-                    <AddItemForm />
-                    <ItemList />
                   </header>
-                  
+                  {currentList._id !== '' && (<>
+                    <AddItemForm onSubmit={handleAddItemSubmit} />
+                    <Items
+                      list={currentList}
+                      onItemClick={handleItemClick}
+                      onSettingsClick={handleEditListClick}
+                      onCategoryClick={handleCategoryClick}
+                      onPenClick={handleEditItemClick}
+                      onTrashClick={handleDeleteItemSubmit} />
+                  </>)}
                 </main>
                 <AddListPopup
                   isOpen={addListPopupOpen}
                   onSubmit={handleCreateListSubmit} />
+                <EditAvatarPopup
+                  isOpen={editAvatarPopupOpen}
+                  onSubmit={handleEditAvatarSubmit}
+                  currentUser={currentUser} />
+                <EditUserNamePopup
+                  isOpen={editUserNamePopupOpen}
+                  onSubmit={handleEditUserNameSubmit}
+                  onOutSideButtonClick={handleSignoutSubmit}
+                  currentUser={currentUser} />
+                <EditListPopup
+                  isOpen={editListPopupOpen}
+                  onSubmit={handleEditListSubmit}
+                  onOutSideButtonClick={handleDeleteListSubmit}
+                  currentList={currentList} />
+                <EditItemPopup
+                  isOpen={editItemPopupOpen}
+                  onSubmit={handleEditItemSubmit}
+                  onOutSideButtonClick={handleDeleteItemSubmit}
+                  item={currentItem} />
               </ProtectedRoute>
             } />
         </Routes>

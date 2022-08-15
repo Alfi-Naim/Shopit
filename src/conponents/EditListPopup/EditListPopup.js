@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
-function AddListPopup({
+function EditListPopup({
     isOpen,
-    onSubmit
+    onSubmit,
+    onOutSideButtonClick,
+    currentList
 }) {
 
-    const [listName, setListName] = useState("");
+    const [listName, setListName] = useState(currentList ? currentList.name : "");
+    // const [listName, setListName] = useState(currentList.name);
 
     const handleNameChange = (event) => {
         setListName(event.target.value);
@@ -18,20 +21,22 @@ function AddListPopup({
     }
 
     useEffect(() => {
-        setListName("");
+        setListName(currentList.name);
     }, [isOpen]);
 
     return (
         <PopupWithForm
             isOpen={isOpen}
             onSubmit={handleSubmit}
-            submitText={'Create List'}>
+            submitText={'Save'}
+            onBottomButtonClick={onOutSideButtonClick}
+            bottomButtonText={'Delete List'}>
             <div className="popup__input-container">
-                <input className='popup__input' value={listName} onChange={handleNameChange} maxLength='30' required/>
+                <input className='popup__input' value={listName || ""} onChange={handleNameChange} maxLength='30' required/>
                 <label className={`popup__label ${listName && "popup__label_active"}`}>List name</label>
             </div>
         </PopupWithForm>
     );
 }
 
-export default AddListPopup;
+export default EditListPopup;

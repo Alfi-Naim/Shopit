@@ -33,7 +33,7 @@ function Login({ onFormSubmit }) {
         <h1 className="auth__title">Login</h1>
         <input className="auth__input" value={email} type='email' onChange={handleEmailChange} placeholder="Email" required />
         <div className="auth__password-wrapper">
-          <input className="auth__input auth__input_type_password" value={password} type={passwordVisibility ? 'text' : 'password'} onChange={handlePasswordChange} placeholder="Password" required />
+          <input className="auth__input auth__input_type_password" value={password} type={passwordVisibility ? 'text' : 'password'} onChange={handlePasswordChange} placeholder="Password" maxLength='30' required />
           <img className="auth__input-helper" src={passwordVisibility ? eyeOpen : eyeClose} onClick={togglePasswordVisibility} />
         </div>
         <button className="auth__submit">Login</button>

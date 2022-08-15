@@ -1,0 +1,50 @@
+.item {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    gap: 8px;
+    background-color: #eeeeee;
+    padding: 4px 12px 4px 12px; 
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.item_checked {
+    text-decoration: line-through;
+}
+
+.item__name {
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+.item__quantity {
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 8px;
+}
+
+.item__category {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    padding: 4px;
+    margin-right: 32px;
+}
+
+.item__action {
+    height: 22px;
+    width: 22px;
+    cursor: pointer;
+    visibility: hidden;
+}
+
+.item__action_small {
+    height: 18px;
+    width: 18px;
+}
+
+.item:hover .item__action {
+    visibility: visible;
+}
