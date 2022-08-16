@@ -173,7 +173,7 @@ class MainApi {
 }
 
 const api = new MainApi({
-    baseUrl: 'http://localhost:3001',
+    baseUrl: 'https://api.shopit.students.nomoredomainssbs.ru',
 });
 
 export default api;
