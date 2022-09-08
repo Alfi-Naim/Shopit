@@ -173,7 +173,7 @@ class MainApi {
 }
 
 const api = new MainApi({
-    baseUrl: 'https://api.shopit.students.nomoredomainssbs.ru',
+    baseUrl: 'https://api.naim-shop.students.nomoredomainssbs.ru',
 });
 
 export default api;
