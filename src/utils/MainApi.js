@@ -75,7 +75,7 @@ class MainApi {
         return this._handleResponse(res);
     }
 
-    updateList = async (listId, name) => {
+    updateList = async (listId, name, sortBy) => {
         const res = await fetch(`${this._baseUrl}/lists/${listId}`, {
             method: 'PUT',
             headers: {
@@ -85,6 +85,7 @@ class MainApi {
             },
             body: JSON.stringify({
                 name: name,
+                sortBy: sortBy,
             }),
         });
         return this._handleResponse(res);
@@ -148,7 +149,24 @@ class MainApi {
                 name: item.name,
                 quantity: item.quantity,
                 category: item.category,
-                checked: item.checked
+                checked: item.checked,
+                lastName: item.lastName,
+            }),
+        });
+        return this._handleResponse(res);
+    }
+
+    checkItem = async (listId, item) => {
+        const res = await fetch(`${this._baseUrl}/lists/${listId}/items/check`, {
+            method: 'PUT',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                authorization: `Bearer ${localStorage.jwt}`,
+            },
+            body: JSON.stringify({
+                itemId: item._id,
+                checked: item.checked,
             }),
         });
         return this._handleResponse(res);
@@ -173,7 +191,7 @@ class MainApi {
 }
 
 const api = new MainApi({
-    baseUrl: 'https://api.naim-shop.students.nomoredomainssbs.ru',
+    baseUrl: 'http://localhost:3001',
 });
 
 export default api;

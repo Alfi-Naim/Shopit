@@ -24,7 +24,7 @@
 .list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 6px;
     overflow: auto;
     overflow-y: scroll;
 }
@@ -41,5 +41,16 @@
 
     .list__header {
         padding: 0 28px 0 28px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    .list {
+        padding: 0 16px 16px 16px;
+    }
+
+    .list__header {
+        padding: 0 20px 0 20px;
     }
 }

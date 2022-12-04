@@ -19,7 +19,7 @@ function AddItemForm({
 
     return (
         <form className='add-item__form' onSubmit={handleSubmit}>
-            <input className='add-item__input' value={itemName} onChange={handleNameChange} placeholder='Add item' required />
+            <input className='add-item__input' value={itemName} onChange={handleNameChange} placeholder='Add item' maxLength={30} required />
             <button className='add-item__button' type='submit'>+</button>
         </form>
     );

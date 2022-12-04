@@ -1,9 +1,8 @@
 import Item from '../Item/Item';
 import './Items.css';
-
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 import settings from '../../images/settings.svg'
 import sort from '../../images/sort.svg'
-import filter from '../../images/filter.svg'
 
 function Items({
     list,
@@ -12,33 +11,42 @@ function Items({
     onSettingsClick,
     onPenClick,
     onTrashClick,
-    onFilterListClick,
-    onSortListClick
+    onSortClick,
 }) {
+
+    const [parent, enableAnimations] = useAutoAnimate()
+
+       function getSortedList() {
+        switch(list.sortBy){
+            case 'Name Ascending': return list.items.sort((a, b) => a.checked - b.checked ||  a.name.localeCompare(b.name));
+            case 'Name Descending': return list.items.sort((a, b) => a.checked - b.checked ||  b.name.localeCompare(a.name));
+            case 'Time Added Ascending': return list.items.sort((a, b) => a.checked - b.checked || a.createdAt.localeCompare(b.createdAt));
+            case 'Time Added Descending': return list.items.sort((a, b) => a.checked - b.checked || b.createdAt.localeCompare(a.createdAt));
+            case 'Category': return list.items.sort((a, b) => a.checked - b.checked || a.category - b.category);
+            default: return list.items.sort((a, b) => a.checked - b.checked || b.createdAt.localeCompare(a.createdAt));
+        }
+    }
 
     return (
         <>
             <div className='list__header'>
                 <h2 className='list__title'>{list.name || "..."}</h2>
                 <div className='list__action-wrapper'>
-                    <img className='list__action' src={filter} onClick={onFilterListClick} />
-                    <img className='list__action' src={sort} onClick={onSortListClick} />
+                    <img className='list__action' src={sort} onClick={onSortClick} />
                     <img className='list__action' src={settings} onClick={onSettingsClick} />
                 </div>
             </div>
-            <ul className='list'>
+            <ul className='list' ref={parent}>
                 {
-                    list.items.map((item, index) => (
+                    getSortedList(list.items).map((item, index) => (
                         <Item
-                            key={index}
+                            key={item.name}
                             item={item}
                             onItemClick={onItemClick}
                             onCategoryClick={onCategoryClick}
                             onPenClick={onPenClick}
-                            onTrashClick={onTrashClick}
-                        />
+                            onTrashClick={onTrashClick} />
                     ))
-
                 }
             </ul>
         </>

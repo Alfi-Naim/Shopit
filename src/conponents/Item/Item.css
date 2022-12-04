@@ -1,12 +1,31 @@
 .item {
     display: flex;
     align-items: center;
-    flex-grow: 1;
+    flex: 1;
     gap: 8px;
     background-color: #eeeeee;
-    padding: 4px 12px 4px 12px; 
+    padding: 4px 12px 4px 4px; 
     border-radius: 8px;
+}
+
+.checkbox__wrapper {
+    background-color: #DCDCDC;
+    border-radius: 8px;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
     cursor: pointer;
+}
+
+.checkbox {
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    visibility: hidden;
+}
+
+.checkbox_visible {
+    visibility: visible;
 }
 
 .item_checked {
@@ -16,21 +35,25 @@
 .item__name {
     font-weight: bold;
     margin-right: 12px;
+    overflow-wrap: break-word;
+    max-width: 50%;
+
 }
 
 .item__quantity {
     font-weight: bold;
-    cursor: pointer;
     margin-left: auto;
     margin-right: 8px;
+    /* text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; */
 }
 
 .item__category {
-    width: 32px;
-    height: 32px;
+    width: 22px;
+    height: 22px;
     cursor: pointer;
     padding: 4px;
-    margin-right: 32px;
 }
 
 .item__action {
@@ -45,6 +68,31 @@
     width: 18px;
 }
 
+.item__action-wrapper {
+    padding: 6px 6px 4px 6px;
+    border-radius: 50%;
+}
+
+.item__action-wrapper:hover {
+    background-color: #E0E0E0;
+}
+
 .item:hover .item__action {
     visibility: visible;
+}
+
+@media screen and (max-width: 550px) {
+
+    .item__category {
+        display: none;
+    }
+
+    .item__action-wrapper {
+        display: none;
+    }
+
+    .item {
+        padding-right: 0;
+    }
+
 }

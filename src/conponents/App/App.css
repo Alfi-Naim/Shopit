@@ -111,13 +111,34 @@
     border-radius: 0;
     padding: 0;
   }
-
+  
   .header {
     background-color: #16224c;
-    padding: 16px 28px;
+    padding: 4px 26px;
   }
 
   .header__menu-button {
+    visibility: visible;
+  }
+
+  .overlay {
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    visibility: hidden;
+    transition: visibility 0.3s, opacity 0.3s linear;
+    z-index: 7;
+  }
+
+  .overlay_visible {
+    opacity: 1;
     visibility: visible;
   }
 }

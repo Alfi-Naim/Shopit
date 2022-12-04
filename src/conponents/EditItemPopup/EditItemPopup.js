@@ -21,7 +21,7 @@ function EditItemPopup({
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        onSubmit({ name: itemName, quantity: itemQuantity, _id: item._id, category: item.category, checked: item.checked }); //TODO
+        onSubmit({ _id: item._id, name: itemName, quantity: itemQuantity, lastName: item.name, lastQuantity: item.quantity });
     }
 
     const handleDeleteClick = () => {
@@ -41,11 +41,11 @@ function EditItemPopup({
             onBottomButtonClick={handleDeleteClick}
             bottomButtonText={'Delete Item'}>
             <div className="popup__input-container">
-                <input className='popup__input' value={itemName || ""} id="name" name='name' onChange={handleNameChange} required/>
+                <input className='popup__input' value={itemName || ""} id="name" name='name' onChange={handleNameChange} maxLength={30} required/>
                 <label className={`popup__label ${itemName && "popup__label_active"}`}>Item name</label>
             </div>
             <div className="popup__input-container">
-                <input className='popup__input' value={itemQuantity || ""} name='quantity' type='number' onChange={handleQuantityChange} required/>
+                <input className='popup__input popup__input_type_number' value={itemQuantity || ""} name='quantity' type='number' onChange={handleQuantityChange} max={99999} required/>
                 <label className={`popup__label ${itemQuantity && "popup__label_active"}`}>Item quantity</label>
             </div>
         </PopupWithForm>

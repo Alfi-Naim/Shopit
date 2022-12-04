@@ -23,6 +23,8 @@ import EditAvatarPopup from '../EditAvatarPopup/EditAvatarPopup';
 import EditUserNamePopup from '../EditUserNamePopup/EditUserNamePopup';
 import EditListPopup from '../EditListPopup/EditListPopup';
 import EditItemPopup from '../EditItemPopup/EditItemPopup';
+import EditCategoryPopup from '../EditCategoryPopup/EditCategoryPopup';
+import EditListSorting from '../EditListSorting/EditListSorting';
 
 function App() {
 
@@ -43,6 +45,8 @@ function App() {
   const [addListPopupOpen, setAddListPopupOpen] = useState(false);
   const [editListPopupOpen, setEditListPopupOpen] = useState(false);
   const [editItemPopupOpen, setEditItemPopupOpen] = useState(false);
+  const [editCategoryPopupOpen, setEditCategoryPopupOpen] = useState(false);
+  const [editListSortPopupOpen, setEditListSortPopupOpen] = useState(false);
 
   const handleSignup = (email, password, name) => {
     toast.promise(
@@ -141,7 +145,7 @@ function App() {
 
   useEffect(() => {
     const closePopupByOutsideClick = (evt) => {
-      if (evt.target.classList.contains("popup")) {
+      if (evt.target.classList.contains("overlay") || evt.target.classList.contains("popup")) {
         closeAllPopups();
       }
     };
@@ -156,6 +160,8 @@ function App() {
     setEditUserNamePopupOpen(false);
     setEditListPopupOpen(false);
     setEditItemPopupOpen(false);
+    setEditCategoryPopupOpen(false);
+    setEditListSortPopupOpen(false);
   }
 
   const handleMenuButtonClick = () => {
@@ -163,6 +169,7 @@ function App() {
   }
 
   const handleCreateListClick = () => {
+    setMenuPopupOpen(false);
     setAddListPopupOpen(true);
   }
 
@@ -171,8 +178,13 @@ function App() {
     loadList(listId)
   }
 
-  const handleCategoryClick = () => {
+  const handleCategoryClick = (item) => {
+    setCurrentItem(item);
+    setEditCategoryPopupOpen(true);
+  }
 
+  const handleSortClick = () => {
+    setEditListSortPopupOpen(true);
   }
 
   const handleEditItemClick = (item) => {
@@ -202,7 +214,7 @@ function App() {
 
   const handleItemClick = (item) => {
     item.checked = !item.checked;
-    mainApi.updateItem(currentList._id, item)
+    mainApi.checkItem(currentList._id, item)
       .then((res) => {
         setCurrentList(res);
         toast.success(`${item.name} ${item.checked ? 'Checked' : 'Unchecked'}`);
@@ -228,16 +240,18 @@ function App() {
 
   const handleEditItemSubmit = (item) => {
     closeAllPopups();
-    mainApi.updateItem(currentList._id, item)
-      .then((res) => {
-        setCurrentList(res);
-        toast.success(`Item updated`);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err.errorCode === 409 ? "This item name already exists" : "An unexpected error occurred");
-      });
+    if (item.name !== item.lastName || item.quantity !== item.lastQuantity || item.category !== item.lastCategory) {
+      mainApi.updateItem(currentList._id, item)
+        .then((res) => {
+          setCurrentList(res);
+          toast.success(`Item updated`);
+          closeAllPopups();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(err.errorCode === 409 ? "This item name already exists" : "An unexpected error occurred");
+        });
+    }
   }
 
   const handleCreateListSubmit = (listName) => {
@@ -295,7 +309,7 @@ function App() {
 
   const handleEditListSubmit = (listName) => {
     closeAllPopups();
-    mainApi.updateList(currentList._id, listName)
+    mainApi.updateList(currentList._id, listName, currentList.sortBy)
       .then((res) => {
         setCurrentList(res);
         const updatedLists = [...lists];
@@ -327,7 +341,24 @@ function App() {
         console.log(err);
         toast.error(`Error deleting list`);
       });
+  }
 
+  const handleEditListSortSubmit = (sortBy) => {
+    closeAllPopups();
+    mainApi.updateList(currentList._id, currentList.name, sortBy)
+      .then((res) => {
+        setCurrentList(res);
+        const updatedLists = [...lists];
+        updatedLists.forEach((list) => {
+          if (list._id === currentList._id) {
+            list.sortBy = sortBy;
+          }
+        })
+        setLists(updatedLists);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -347,6 +378,7 @@ function App() {
             path='/'
             element={
               <ProtectedRoute loggedIn={loggedIn} loading={loading}>
+                <div className={`overlay ${menuPopupOpen && "overlay_visible"}`} />
                 <aside className={`aside ${menuPopupOpen && "aside_visible"}`}>
                   <h1 className='logo'>.Shopit</h1>
                   <Lists
@@ -371,6 +403,7 @@ function App() {
                       onSettingsClick={handleEditListClick}
                       onCategoryClick={handleCategoryClick}
                       onPenClick={handleEditItemClick}
+                      onSortClick={handleSortClick}
                       onTrashClick={handleDeleteItemSubmit} />
                   </>)}
                 </main>
@@ -396,6 +429,13 @@ function App() {
                   onSubmit={handleEditItemSubmit}
                   onOutSideButtonClick={handleDeleteItemSubmit}
                   item={currentItem} />
+                <EditCategoryPopup
+                  isOpen={editCategoryPopupOpen}
+                  onSubmit={handleEditItemSubmit}
+                  item={currentItem} />
+                <EditListSorting
+                  isOpen={editListSortPopupOpen}
+                  onSubmit={handleEditListSortSubmit} />
               </ProtectedRoute>
             } />
         </Routes>
