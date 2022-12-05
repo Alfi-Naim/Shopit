@@ -1,6 +1,6 @@
 import api from "./MainApi";
 
-const baseUrl = "http://localhost:3001";
+const baseUrl = "https://api.naim-shop.students.nomoredomainssbs.ru";
 
 export const signup = async (email, password, name) => {
     const res = await fetch(`${baseUrl}/signup`, {

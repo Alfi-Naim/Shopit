@@ -191,7 +191,7 @@ class MainApi {
 }
 
 const api = new MainApi({
-    baseUrl: 'http://localhost:3001',
+    baseUrl: 'https://api.naim-shop.students.nomoredomainssbs.ru',
 });
 
 export default api;
