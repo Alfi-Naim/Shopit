@@ -6,8 +6,8 @@ import eyeClose from '../../images/eye-close.svg'
 
 function Login({ onFormSubmit }) {
 
-  const [email, setEmail] = useState("alfons@gmail.com");
-  const [password, setPassword] = useState("1234");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
 
   const onSubmitClick = (event) => {
