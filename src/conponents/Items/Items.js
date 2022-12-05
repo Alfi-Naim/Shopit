@@ -38,7 +38,7 @@ function Items({
             </div>
             <ul className='list' ref={parent}>
                 {
-                    getSortedList(list.items).map((item, index) => (
+                    getSortedList().map((item, index) => (
                         <Item
                             key={item.name}
                             item={item}

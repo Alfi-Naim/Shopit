@@ -30,6 +30,7 @@
 
 .lists__item-title {
     font-size: 18px;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .lists__item:hover {
@@ -57,4 +58,9 @@
     font-weight: bold;
     background-color: #3b4897;
     cursor: pointer;
+    transition: opacity .3s ease;
+}
+
+.lists__button:hover {
+    opacity: 0.9;
 }

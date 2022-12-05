@@ -6,6 +6,7 @@
     background-color: #eeeeee;
     padding: 4px 12px 4px 4px; 
     border-radius: 8px;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .checkbox__wrapper {
@@ -37,7 +38,6 @@
     margin-right: 12px;
     overflow-wrap: break-word;
     max-width: 50%;
-
 }
 
 .item__quantity {

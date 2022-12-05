@@ -31,6 +31,11 @@
     border-radius: 0 0 24px 24px;
     font-weight: bold;
     cursor: pointer;
+    transition: opacity .3s ease;
+}
+
+.popup__submit-button:hover {
+    opacity: 0.9;
 }
 
 .popup__form-container {
@@ -57,7 +62,7 @@
     border: none;
     font-weight: bold;
     outline: none;
-    font-family: 'Kantumruy Pro';
+    font-family: 'Varela Round', sans-serif;
     margin-top: 3px;
     padding-left: 12px;
     padding-right: 12px;
@@ -116,6 +121,11 @@
     font-family: 'Kantumruy Pro';
     background-color: #FF6347;
     cursor: pointer;
+    transition: opacity .3s ease;
+}
+
+.popup__bottom-button:hover {
+    opacity: 0.9;
 }
 
 .popup__image {

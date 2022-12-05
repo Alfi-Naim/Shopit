@@ -11,6 +11,7 @@
     border: 2px solid #000;
     border-radius: 8px;
     width: 100%;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .add-item__button {

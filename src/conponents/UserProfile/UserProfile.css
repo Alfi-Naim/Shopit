@@ -19,6 +19,11 @@
     height: 48px;
     cursor: pointer;
     background-color: black;
+    transition: opacity .3s ease;
+}
+
+.profile__image:hover {
+    opacity: 0.5;
 }
 
 .profile__name {
@@ -30,6 +35,11 @@
     height: 16px;
     width: 16px;
     cursor: pointer;
+    transition: opacity .3s ease;
+}
+
+.profile__arrow:hover {
+    opacity: 0.6;
 }
 
 .profile__arrow_color_black {

@@ -52,6 +52,11 @@
     padding: 14px 12px 14px 12px;
     letter-spacing: 2px;
     cursor: pointer;
+    transition: opacity .3s ease;
+}
+
+.auth__submit:hover {
+    opacity: 0.8;
 }
 
 .auth__bottom-wrapper {
@@ -73,10 +78,15 @@
     padding: 8px 12px 8px 12px;
     text-decoration: none;
     color: #000;
+    transition: all .3s ease;
 }
 
 .auth__bottom-link:active {
     color: #000;
+}
+
+.auth__bottom-link:hover {
+    border: 1px solid rgb(63, 63, 63);
 }
 
 .auth__input-helper {
@@ -89,6 +99,11 @@
     font-size: 30px;
     cursor: pointer;
     border: none;
+    transition: opacity .3s ease;
+}
+
+.auth__input-helper:hover {
+    opacity: 0.8;
 }
 
 @media screen and (max-width: 392px) {

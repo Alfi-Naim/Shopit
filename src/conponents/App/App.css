@@ -52,6 +52,12 @@
   height: 28px;
   width: 28px;
   visibility: hidden;
+  transition: opacity .3s ease;
+  cursor: pointer;
+}
+
+.header__menu-button:hover {
+  opacity: 0.6;
 }
 
 .main__info-container {

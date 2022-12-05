@@ -7,6 +7,7 @@
 .list__title {
     font-size: 26px;
     font-weight: bold;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .list__action-wrapper {
@@ -19,6 +20,11 @@
     width: 24px;
     cursor: pointer;
     margin-left: auto;
+    transition: opacity .3s ease;
+}
+
+.list__action:hover {
+    opacity: 0.6;
 }
 
 .list {
@@ -27,6 +33,7 @@
     gap: 6px;
     overflow: auto;
     overflow-y: scroll;
+    overflow-anchor: none;
 }
 
 .list::-webkit-scrollbar {
