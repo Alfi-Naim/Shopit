@@ -46,7 +46,7 @@ function Register({ onFormSubmit }) {
         <button className="auth__submit">Register</button>
       </form>
       <div className="auth__bottom-wrapper">
-        <p className="auth__bottom-text">If You Already Have An Acount</p>
+        <p className="auth__bottom-text">If You Already Have An Account</p>
         <Link className="auth__bottom-link" to={"/signin"} >Login</Link>
       </div>
     </div>

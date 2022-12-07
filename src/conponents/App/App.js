@@ -116,7 +116,7 @@ function App() {
           else setCurrentList({ _id: '', items: [] });
         })
         .catch((err) => {
-          toast.error("Error loading lists")
+          toast.error("Error loading lists");
           console.log(err)
         })
     }
@@ -128,7 +128,7 @@ function App() {
         if (list) setCurrentList(list);
       })
       .catch((err) => {
-        toast.error("Error loading list")
+        toast.error("Error loading list");
         console.log(err)
       })
   }
@@ -212,7 +212,7 @@ function App() {
     closeAllPopups();
   }
 
-  const handleItemClick = (item) => {
+  const handleItemClick = (item) => { //todo
     item.checked = !item.checked;
     mainApi.checkItem(currentList._id, item)
       .then((res) => {
@@ -221,144 +221,190 @@ function App() {
       })
       .catch((err) => {
         console.log(err)
-        toast.error(`Error checking ${item.name}`);
+        toast.error("Error checking item");
       });
   }
 
   const handleDeleteItemSubmit = (item) => {
     closeAllPopups();
-    mainApi.deleteItem(currentList._id, item._id)
-      .then((res) => {
-        setCurrentList(res);
-        toast.success(`${item.name} deleted`);
-      })
-      .catch((err) => {
-        console.log(err)
-        toast.error(`Error deleting ${item.name}`);
-      });
+    toast.promise(
+      mainApi.deleteItem(currentList._id, item._id),
+      {
+        loading: "Deleting item",
+        success: (res) => {
+          setCurrentList(res);
+          return "Item deleted";
+        },
+        error: (err) => {
+          console.log(err);
+          return "Error deleting item"
+        },
+      }
+    );
   }
 
   const handleEditItemSubmit = (item) => {
     closeAllPopups();
     if (item.name !== item.lastName || item.quantity !== item.lastQuantity || item.category !== item.lastCategory) {
-      mainApi.updateItem(currentList._id, item)
-        .then((res) => {
-          setCurrentList(res);
-          toast.success(`Item updated`);
-          closeAllPopups();
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error(err.errorCode === 409 ? "This item name already exists" : "An unexpected error occurred");
-        });
+      toast.promise(
+        mainApi.updateItem(currentList._id, item),
+        {
+          loading: "Updating item",
+          success: (res) => {
+            setCurrentList(res);
+            return "Item updated";
+          },
+          error: (err) => {
+            console.log(err);
+            return err.errorCode === 409 ? "This item name already exists" : "An unexpected error occurred"
+          },
+        }
+      );
     }
   }
 
   const handleCreateListSubmit = (listName) => {
     closeAllPopups();
-    mainApi.createList(listName)
-      .then((list) => {
-        const updatedLists = [...lists, list]
-        setLists(updatedLists);
-        toast.success(`List created`);
-        if (updatedLists.length === 1) loadList(list._id);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(`Error creating list`);
-      });
+    toast.promise(
+      mainApi.createList(listName),
+      {
+        loading: "Creating list",
+        success: (list) => {
+          const updatedLists = [...lists, list]
+          setLists(updatedLists);
+          if (updatedLists.length === 1) loadList(list._id);
+          return "List created";
+        },
+        error: (err) => {
+          console.log(err);
+          return "Error creating list";
+        },
+      }
+    );
   }
 
   const handleAddItemSubmit = (itemName) => {
-    mainApi.createItem(currentList._id, itemName)
-      .then((res) => {
-        setCurrentList(res);
-        toast.success(`Item created`);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err.errorCode === 409 ? "This item name already exists" : "An unexpected error occurred");
-      });
+    toast.promise(
+      mainApi.createItem(currentList._id, itemName),
+      {
+        loading: "Creating item",
+        success: (res) => {
+          setCurrentList(res);
+          return "Item created";
+        },
+        error: (err) => {
+          console.log(err);
+          return err.errorCode === 409 ? "This item name already exists" : "An unexpected error occurred";
+        },
+      }
+    );
   }
 
   const handleEditAvatarSubmit = (avatar) => {
     closeAllPopups();
-    mainApi.updateUserAvatar(avatar)
-      .then((res) => {
-        setCurrentUser(res);
-        toast.success(`User avatar updated`);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Error updating user avatar");
-      });
+    toast.promise(
+      mainApi.updateUserAvatar(avatar),
+      {
+        loading: "Updating avatar",
+        success: (res) => {
+          setCurrentUser(res);
+          return "Avatar updated";
+        },
+        error: (err) => {
+          console.log(err);
+          return "Error updating avatar";
+        },
+      }
+    );
   }
 
   const handleEditUserNameSubmit = (name) => {
     closeAllPopups();
-    mainApi.updateUserName(name)
-      .then((res) => {
-        setCurrentUser(res);
-        toast.success(`User name updated`);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Error updating user name");
-      });
+    toast.promise(
+      mainApi.updateUserName(name),
+      {
+        loading: "Updating user name",
+        success: (res) => {
+          setCurrentUser(res);
+          return "User name updated";
+        },
+        error: (err) => {
+          console.log(err);
+          return "Error updating user name";
+        },
+      }
+    );
   }
 
   const handleEditListSubmit = (listName) => {
     closeAllPopups();
-    mainApi.updateList(currentList._id, listName, currentList.sortBy)
-      .then((res) => {
-        setCurrentList(res);
-        const updatedLists = [...lists];
-        updatedLists.forEach((list) => {
-          if (list._id === currentList._id) {
-            list.name = listName;
-          }
-        })
-        setLists(updatedLists);
-        toast.success(`List updated`);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(`Error updating list`);
-      });
-
-  }
-  const handleDeleteListSubmit = () => {
-    closeAllPopups();
-    mainApi.deleteList(currentList._id)
-      .then(() => {
-        const updatedLists = lists.filter((list) => list._id !== currentList._id);
-        setLists(updatedLists);
-        toast.success(`List deleted`);
-        if (updatedLists.length > 0) loadList(updatedLists[0]._id);
-        else setCurrentList({ _id: '', items: [] });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(`Error deleting list`);
-      });
+    toast.promise(
+      mainApi.updateList(currentList._id, listName, currentList.sortBy),
+      {
+        loading: "Updating list name",
+        success: (res) => {
+          setCurrentList(res);
+          const updatedLists = [...lists];
+          updatedLists.forEach((list) => {
+            if (list._id === currentList._id) {
+              list.name = listName;
+            }
+          })
+          setLists(updatedLists);
+          return "List name updated";
+        },
+        error: (err) => {
+          console.log(err);
+          return "Error updating list name";
+        },
+      }
+    );
   }
 
   const handleEditListSortSubmit = (sortBy) => {
     closeAllPopups();
-    mainApi.updateList(currentList._id, currentList.name, sortBy)
-      .then((res) => {
-        setCurrentList(res);
-        const updatedLists = [...lists];
-        updatedLists.forEach((list) => {
-          if (list._id === currentList._id) {
-            list.sortBy = sortBy;
-          }
-        })
-        setLists(updatedLists);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    toast.promise(
+      mainApi.updateList(currentList._id, currentList.name, sortBy),
+      {
+        loading: "Updating list",
+        success: (res) => {
+          setCurrentList(res);
+          const updatedLists = [...lists];
+          updatedLists.forEach((list) => {
+            if (list._id === currentList._id) {
+              list.sortBy = sortBy;
+            }
+          })
+          setLists(updatedLists);
+          return "List sort updated";
+        },
+        error: (err) => {
+          console.log(err);
+          return "Error updating list sort";
+        },
+      }
+    );
+  }
+
+  const handleDeleteListSubmit = () => {
+    closeAllPopups();
+    toast.promise(
+      mainApi.deleteList(currentList._id),
+      {
+        loading: "Deleting list",
+        success: () => {
+          const updatedLists = lists.filter((list) => list._id !== currentList._id);
+          setLists(updatedLists);
+          if (updatedLists.length > 0) loadList(updatedLists[0]._id);
+          else setCurrentList({ _id: '', items: [] });
+          return "List deleted";
+        },
+        error: (err) => {
+          console.log(err);
+          return "Error deleting list";
+        },
+      }
+    );
   }
 
   return (

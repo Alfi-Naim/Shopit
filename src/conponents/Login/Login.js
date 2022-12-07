@@ -39,7 +39,7 @@ function Login({ onFormSubmit }) {
         <button className="auth__submit">Login</button>
       </form>
       <div className="auth__bottom-wrapper">
-        <p className="auth__bottom-text">If You Don't Have An Acount</p>
+        <p className="auth__bottom-text">If You Don't Have An Account</p>
         <Link to={"/signup"} className="auth__bottom-link">Register</Link>
       </div>
     </div>
