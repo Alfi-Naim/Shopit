@@ -166,7 +166,7 @@ class MainApi {
             },
             body: JSON.stringify({
                 itemId: item._id,
-                checked: item.checked,
+                checked: !item.checked,
             }),
         });
         return this._handleResponse(res);

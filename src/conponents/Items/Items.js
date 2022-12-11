@@ -6,10 +6,10 @@ import sort from '../../images/sort.svg'
 
 function Items({
     list,
-    onItemClick,
+    handleItemCheck,
     onCategoryClick,
     onSettingsClick,
-    onPenClick,
+    onEditItemClick,
     onTrashClick,
     onSortClick,
 }) {
@@ -42,9 +42,9 @@ function Items({
                         <Item
                             key={item.name}
                             item={item}
-                            onItemClick={onItemClick}
+                            handleItemCheck={handleItemCheck}
                             onCategoryClick={onCategoryClick}
-                            onPenClick={onPenClick}
+                            onEditItemClick={onEditItemClick}
                             onTrashClick={onTrashClick} />
                     ))
                 }

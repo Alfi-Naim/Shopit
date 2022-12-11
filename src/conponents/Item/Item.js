@@ -5,24 +5,24 @@ import { categories } from '../../utils/constants';
 
 function Item({
     item,
-    onItemClick,
+    handleItemCheck,
     onCategoryClick,
-    onPenClick,
+    onEditItemClick,
     onTrashClick,
 }) {
 
-    const onClick2 = (event) => {
+    const onItemClick = (event) => {
         if(event.target === event.currentTarget || event.target.className.includes('item__name'))
-        onPenClick(item);
+        onEditItemClick(item);
     }
 
-    const onClick = (event) => {
-        onItemClick(item);
+    const onItemCheckClick = (event) => {
+        handleItemCheck(item);
     }
 
     return (
-        <li className={`item ${item.checked && "item_checked"}`} onClick={onClick2} >
-            <div className='checkbox__wrapper' onClick={onClick}>
+        <li className={`item ${item.checked && "item_checked"}`} onClick={onItemClick} >
+            <div className='checkbox__wrapper' onClick={onItemCheckClick}>
                 <img className={`checkbox ${item.checked && "checkbox_visible"}`} src={checkMark} />
             </div>
             <p className='item__name'>{item.name}</p>

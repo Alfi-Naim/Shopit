@@ -54,6 +54,11 @@
     height: 22px;
     cursor: pointer;
     padding: 4px;
+    transition: opacity .3s ease;
+}
+
+.item__category:hover {
+    opacity: 0.6;
 }
 
 .item__action {

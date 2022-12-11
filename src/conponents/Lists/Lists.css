@@ -31,6 +31,9 @@
 .lists__item-title {
     font-size: 18px;
     font-family: 'Varela Round', sans-serif;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .lists__item:hover {
@@ -64,3 +67,4 @@
 .lists__button:hover {
     opacity: 0.9;
 }
+

@@ -8,6 +8,11 @@
     font-size: 26px;
     font-weight: bold;
     font-family: 'Varela Round', sans-serif;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 640px;
+    margin-right: 32px;
 }
 
 .list__action-wrapper {
@@ -40,6 +45,20 @@
     display: none;
 }
 
+@media screen and (max-width: 1250px) {
+
+    .list__title {
+        max-width: 540px;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+
+    .list__title {
+        max-width: 400px;
+    }
+}
+
 @media screen and (max-width: 950px) {
 
     .list {
@@ -48,6 +67,10 @@
 
     .list__header {
         padding: 0 28px 0 28px;
+    }
+
+    .list__title {
+        max-width: 640px;
     }
 }
 

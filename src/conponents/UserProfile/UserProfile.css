@@ -29,6 +29,11 @@
 .profile__name {
     font-weight: bold;
     letter-spacing: 1px;
+    font-family: 'Varela Round', sans-serif;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 340px;
 }
 
 .profile__arrow {
@@ -49,6 +54,33 @@
 .profile__arrow_color_white {
     display: block;
 }
+
+@media screen and (max-width: 500px) {
+
+    .profile__name {
+        max-width: 220px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+
+    .profile__name {
+        max-width: 220px;
+    }
+
+
+    .profile__image {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 400px) {
+
+    .profile__name {
+        max-width: 150px;
+    }
+}
+
 
 @media screen and (max-width: 950px) {
 

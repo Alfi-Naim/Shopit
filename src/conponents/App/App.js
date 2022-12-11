@@ -44,9 +44,9 @@ function App() {
   const [editAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [addListPopupOpen, setAddListPopupOpen] = useState(false);
   const [editListPopupOpen, setEditListPopupOpen] = useState(false);
+  const [editListSortPopupOpen, setEditListSortPopupOpen] = useState(false);
   const [editItemPopupOpen, setEditItemPopupOpen] = useState(false);
   const [editCategoryPopupOpen, setEditCategoryPopupOpen] = useState(false);
-  const [editListSortPopupOpen, setEditListSortPopupOpen] = useState(false);
 
   const handleSignup = (email, password, name) => {
     toast.promise(
@@ -90,7 +90,7 @@ function App() {
         {
           loading: 'Loading user info',
           success: (res) => `Welcome ${res.name}`,
-          error: () => `Error loading user info`,
+          error: () => 'Error loading user info',
         }
       )
         .then((res) => {
@@ -165,7 +165,7 @@ function App() {
   }
 
   const handleMenuButtonClick = () => {
-    setMenuPopupOpen(!menuPopupOpen);
+    setMenuPopupOpen(true);
   }
 
   const handleCreateListClick = () => {
@@ -175,7 +175,7 @@ function App() {
 
   const handleListClick = (listId) => {
     closeAllPopups();
-    loadList(listId)
+    loadList(listId);
   }
 
   const handleCategoryClick = (item) => {
@@ -212,17 +212,21 @@ function App() {
     closeAllPopups();
   }
 
-  const handleItemClick = (item) => { //todo
-    item.checked = !item.checked;
-    mainApi.checkItem(currentList._id, item)
-      .then((res) => {
-        setCurrentList(res);
-        toast.success(`${item.name} ${item.checked ? 'Checked' : 'Unchecked'}`);
-      })
-      .catch((err) => {
-        console.log(err)
-        toast.error("Error checking item");
-      });
+  const handleItemCheck = (item) => {
+    toast.promise(
+      mainApi.checkItem(currentList._id, item),
+      {
+        loading: "Checking item",
+        success: (res) => {
+          setCurrentList(res);
+          return `${item.name} ${item.checked ? 'Checked' : 'Unchecked'}`;
+        },
+        error: (err) => {
+          console.log(err);
+          return "Error checking item";
+        },
+      }
+    );
   }
 
   const handleDeleteItemSubmit = (item) => {
@@ -441,17 +445,19 @@ function App() {
                       onImageClick={handleEditProfileImageClick}
                       onArrowClick={handleEditProfileNameClick} />
                   </header>
-                  {currentList._id !== '' && (<>
-                    <AddItemForm onSubmit={handleAddItemSubmit} />
-                    <Items
-                      list={currentList}
-                      onItemClick={handleItemClick}
-                      onSettingsClick={handleEditListClick}
-                      onCategoryClick={handleCategoryClick}
-                      onPenClick={handleEditItemClick}
-                      onSortClick={handleSortClick}
-                      onTrashClick={handleDeleteItemSubmit} />
-                  </>)}
+                  {currentList._id !== '' && (
+                    <>
+                      <AddItemForm onSubmit={handleAddItemSubmit} />
+                      <Items
+                        list={currentList}
+                        handleItemCheck={handleItemCheck}
+                        onSettingsClick={handleEditListClick}
+                        onCategoryClick={handleCategoryClick}
+                        onEditItemClick={handleEditItemClick}
+                        onSortClick={handleSortClick}
+                        onTrashClick={handleDeleteItemSubmit} />
+                    </>
+                  )}
                 </main>
                 <AddListPopup
                   isOpen={addListPopupOpen}
