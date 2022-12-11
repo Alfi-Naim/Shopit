@@ -1,7 +1,7 @@
 import api from "./MainApi";
 
-// const baseUrl = "https://api.naim-shop.students.nomoredomainssbs.ru";
-const baseUrl = "http://localhost:3002";
+const baseUrl = "https://api.naim-shop.students.nomoredomainssbs.ru";
+// const baseUrl = "http://localhost:3002";
 
 
 export const signup = async (email, password, name) => {
