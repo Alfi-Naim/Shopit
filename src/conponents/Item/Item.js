@@ -12,12 +12,17 @@ function Item({
 }) {
 
     const onItemClick = (event) => {
-        if(event.target === event.currentTarget || event.target.className.includes('item__name'))
-        onEditItemClick(item);
+        if (event.target === event.currentTarget || event.target.className.includes('item__name'))
+            onEditItemClick(item);
     }
 
     const onItemCheckClick = (event) => {
         handleItemCheck(item);
+        getCategoryData(item.category);
+    }
+
+    const getCategoryData = (categoryNumber) => {
+        return categories.filter(item => item.number === categoryNumber)[0];
     }
 
     return (
@@ -26,8 +31,11 @@ function Item({
                 <img className={`checkbox ${item.checked && "checkbox_visible"}`} src={checkMark} />
             </div>
             <p className='item__name'>{item.name}</p>
-            <p className='item__quantity'>{item.quantity}</p>            
-            <img className='item__category' src={categories[item.category].icon} onClick={() => onCategoryClick(item)} />
+            <p className='item__quantity'>{item.quantity}</p>
+            <div className='item__popup-container'>
+                <img className='item__category' src={getCategoryData(item.category).icon} onClick={() => onCategoryClick(item)} />
+                <p className='item__popup'>{getCategoryData(item.category).name}</p>
+            </div>
             <div className='item__action-wrapper'>
                 <img className='item__action' src={trash} onClick={() => onTrashClick(item)} />
             </div>

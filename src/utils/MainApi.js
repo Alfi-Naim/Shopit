@@ -191,7 +191,7 @@ class MainApi {
 }
 
 const api = new MainApi({
-    baseUrl: 'https://api.naim-shop.students.nomoredomainssbs.ru',
+    baseUrl: 'https://api.shopit-alfi.students.nomoredomainssbs.ru',
     // baseUrl: "http://localhost:3002",
 });
 

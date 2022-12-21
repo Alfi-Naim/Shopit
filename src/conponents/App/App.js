@@ -430,7 +430,7 @@ function App() {
               <ProtectedRoute loggedIn={loggedIn} loading={loading}>
                 <div className={`overlay ${menuPopupOpen && "overlay_visible"}`} />
                 <aside className={`aside ${menuPopupOpen && "aside_visible"}`}>
-                  <h1 className='logo'>.Shopit</h1>
+                  <h1 className='logo'>Shopit.</h1>
                   <Lists
                     lists={lists}
                     currentList={currentList}

@@ -21,7 +21,7 @@ function EditItemPopup({
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        onSubmit({ _id: item._id, name: itemName, quantity: itemQuantity, lastName: item.name, lastQuantity: item.quantity });
+        onSubmit({ _id: item._id, name: itemName, quantity: itemQuantity, lastName: item.name, lastQuantity: item.quantity, category: item.category });
     }
 
     const handleDeleteClick = () => {

@@ -19,6 +19,9 @@ import wine from '../images/categories/wine.svg'
 import cheese from '../images/categories/cheese.svg'
 import box from '../images/categories/box.svg'
 import cake from '../images/categories/cake.svg'
+import salads from '../images/categories/salads.svg'
+import shirt from '../images/categories/shirt.svg'
+import monitor from '../images/categories/monitor.svg'
 
 export const sorting = [
     {
@@ -45,7 +48,7 @@ export const categories = [
         "icon": box
     },
     {
-        "name": "Fruits and Vegetables",
+        "name": "Fruits and vegetables",
         "number": 1,
         "icon": apple
     },
@@ -55,9 +58,14 @@ export const categories = [
         "icon": meat
     },
     {
-        "name": "Dairy",
+        "name": "Dairy and eggs",
         "number": 3,
         "icon": cheese
+    },
+    {
+        "name": "Salads",
+        "number": 21,
+        "icon": salads
     },
     {
         "name": "Sea food",
@@ -65,17 +73,12 @@ export const categories = [
         "icon": fish
     },
     {
-        "name": "Frozen",
-        "number": 5,
-        "icon": snow
-    },
-    {
         "name": "Beverage",
         "number": 6,
         "icon": water
     },
     {
-        "name": "Bakery and Bread",
+        "name": "Bakery and bread",
         "number": 7,
         "icon": bread
     },
@@ -85,7 +88,7 @@ export const categories = [
         "icon": cake
     },
     {
-        "name": "Canned and Jars",
+        "name": "Canned and jars",
         "number": 9,
         "icon": jar
     },
@@ -100,27 +103,32 @@ export const categories = [
         "icon": oil
     },
     {
-        "name": "Snacks and Sweets",
+        "name": "Snacks and sweets",
         "number": 12,
         "icon": candy
     },
     {
-        "name": "Pasta",
+        "name": "Pasta and grains",
         "number": 13,
         "icon": wheat
     },
     {
-        "name": "Home suplies",
+        "name": "Frozen",
+        "number": 5,
+        "icon": snow
+    },
+    {
+        "name": "Home supplies",
         "number": 14,
         "icon": candle
     },
     {
-        "name": "Baby",
+        "name": "Baby products",
         "number": 15,
         "icon": pacifier
     },
     {
-        "name": "Bath and Beauty",
+        "name": "Bath and beauty",
         "number": 16,
         "icon": soap
     },
@@ -135,9 +143,19 @@ export const categories = [
         "icon": wine
     },
     {
-        "name": "Cleaning",
+        "name": "Cleaning products",
         "number": 19,
         "icon": spray
+    },
+    {
+        "name": "Clothing",
+        "number": 22,
+        "icon": shirt
+    },
+    {
+        "name": "Electronics",
+        "number": 23,
+        "icon": monitor
     },
     {
         "name": "Health",
