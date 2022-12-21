@@ -127,7 +127,7 @@ function App() {
       toast.promise(
         mainApi.loadList(listId),
         {
-          loading: "Checking item",
+          loading: "Loading list",
           success: (list) => {
             if (list) setCurrentList(list);
             return "List loaded";
