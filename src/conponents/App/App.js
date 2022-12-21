@@ -123,14 +123,22 @@ function App() {
   }, [token]);
 
   const loadList = (listId) => {
-    mainApi.loadList(listId)
-      .then((list) => {
-        if (list) setCurrentList(list);
-      })
-      .catch((err) => {
-        toast.error("Error loading list");
-        console.log(err)
-      })
+    if(listId !== currentList._id){
+      toast.promise(
+        mainApi.loadList(listId),
+        {
+          loading: "Checking item",
+          success: (list) => {
+            if (list) setCurrentList(list);
+            return "List loaded";
+          },
+          error: (err) => {
+            console.log(err);
+            return "Error loading list";
+          },
+        }
+      );
+    }
   }
 
   useEffect(() => {
