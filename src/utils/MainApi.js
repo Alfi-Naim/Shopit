@@ -192,7 +192,7 @@ class MainApi {
 
 const api = new MainApi({
     baseUrl: 'https://api.shopit-alfi.students.nomoredomainssbs.ru',
-    // baseUrl: "http://localhost:3002",
+    // baseUrl: "http://localhost:3000",
 });
 
 export default api;

@@ -1,7 +1,7 @@
 import api from "./MainApi";
 
 const baseUrl = "https://api.shopit-alfi.students.nomoredomainssbs.ru";
-// const baseUrl = "http://localhost:3002";
+// const baseUrl = "http://localhost:3000";
 
 
 export const signup = async (email, password, name) => {
